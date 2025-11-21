@@ -8,6 +8,8 @@ import { testSupabaseConnection, createHashtag, createVideoHashtagRelations } fr
 import { extractHashtagsFromVideo, getHashtagExtractionStats } from '../../../../lib/hashtag-extractor';
 import { YouTubeVideo } from '../../../../lib/supabase-types';
 
+type VideoHashtagRelationInput = Parameters<typeof createVideoHashtagRelations>[1][number];
+
 // 示例YouTube视频数据（基于你提供的真实数据）
 const sampleVideoData: YouTubeVideo = {
   kind: "youtube#video",
@@ -76,6 +78,7 @@ export async function GET(request: NextRequest) {
       timestamp: new Date().toISOString(),
       testResults: {}
     };
+    const createdHashtagIds: string[] = [];
 
     // 1. 测试Supabase连接
     if (testType === 'all' || testType === 'connection') {
@@ -112,6 +115,10 @@ export async function GET(request: NextRequest) {
 
       for (const hashtag of extractionResult.hashtags.slice(0, 3)) { // 只测试前3个
         const createResult = await createHashtag(hashtag.name);
+        const createdId = 'data' in createResult ? createResult.data?.id : undefined;
+        if (createResult.success && createdId) {
+          createdHashtagIds.push(createdId);
+        }
         createdHashtags.push({
           name: hashtag.name,
           result: createResult
@@ -130,19 +137,42 @@ export async function GET(request: NextRequest) {
       console.log('测试hashtag关联创建...');
 
       const extractionResult = extractHashtagsFromVideo(sampleVideoData);
-      const hashtagRelations = extractionResult.hashtags.slice(0, 2).map(hashtag => ({
-        hashtagId: 1, // 使用一个测试ID
-        source: hashtag.source,
-        position: hashtag.position,
-        confidence: hashtag.confidence
-      }));
+      if (createdHashtagIds.length === 0) {
+        for (const hashtag of extractionResult.hashtags.slice(0, 2)) {
+          const createResult = await createHashtag(hashtag.name);
+          const createdId = 'data' in createResult ? createResult.data?.id : undefined;
+          if (createResult.success && createdId) {
+            createdHashtagIds.push(createdId);
+          }
+        }
+      }
 
-      const relationResult = await createVideoHashtagRelations(
-        sampleVideoData.id,
-        hashtagRelations
-      );
+      const hashtagRelations = extractionResult.hashtags.slice(0, 2)
+        .map((hashtag, index) => {
+          const hashtagId = createdHashtagIds[index] ?? createdHashtagIds[0];
+          if (!hashtagId) return null;
+          return {
+            hashtagId,
+            source: hashtag.source,
+            position: hashtag.position,
+            confidence: hashtag.confidence
+          };
+        })
+        .filter(Boolean) as VideoHashtagRelationInput[];
 
-      results.testResults.hashtagRelations = relationResult;
+      if (hashtagRelations.length === 0) {
+        results.testResults.hashtagRelations = {
+          success: false,
+          error: '未能创建有效的hashtag ID用于关联测试'
+        };
+      } else {
+        const relationResult = await createVideoHashtagRelations(
+          sampleVideoData.id,
+          hashtagRelations
+        );
+
+        results.testResults.hashtagRelations = relationResult;
+      }
     }
 
     // 5. 环境配置检查
@@ -223,8 +253,13 @@ export async function POST(request: NextRequest) {
 
       // 创建hashtag
       const hashtagCreations = [];
+      const createdHashtagIds: string[] = [];
       for (const hashtag of extractionResult.hashtags) {
         const createResult = await createHashtag(hashtag.name);
+        const createdId = 'data' in createResult ? createResult.data?.id : undefined;
+        if (createResult.success && createdId) {
+          createdHashtagIds.push(createdId);
+        }
         hashtagCreations.push({
           hashtag,
           createResult
@@ -232,17 +267,24 @@ export async function POST(request: NextRequest) {
       }
 
       // 创建关联（需要实际的hashtag ID）
-      const hashtagRelations = extractionResult.hashtags.map((hashtag, index) => ({
-        hashtagId: index + 1, // 临时ID，实际应该从创建结果中获取
-        source: hashtag.source,
-        position: hashtag.position,
-        confidence: hashtag.confidence
-      }));
+      const hashtagRelations: VideoHashtagRelationInput[] = [];
+      extractionResult.hashtags.forEach((hashtag, index) => {
+        const hashtagId = createdHashtagIds[index] ?? createdHashtagIds[0];
+        if (!hashtagId) return;
+        hashtagRelations.push({
+          hashtagId,
+          source: hashtag.source,
+          position: hashtag.position,
+          confidence: hashtag.confidence
+        });
+      });
 
-      const relationResult = await createVideoHashtagRelations(
-        videoData.id,
-        hashtagRelations
-      );
+      const relationResult = hashtagRelations.length > 0
+        ? await createVideoHashtagRelations(
+            videoData.id,
+            hashtagRelations
+          )
+        : { success: false, error: '未能创建有效的hashtag ID用于关联' };
 
       results.databaseOperations = {
         hashtagCreations,

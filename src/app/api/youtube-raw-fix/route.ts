@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     url.searchParams.set('chart', 'mostPopular')
     url.searchParams.set('regionCode', regionCode)
     url.searchParams.set('maxResults', String(maxResults))
-    url.searchParams.set('key', YOUTUBE_API_KEY)
+    url.searchParams.set('key', YOUTUBE_API_KEY!)
     if (pageToken) url.searchParams.set('pageToken', pageToken)
 
     const fetchResponse = await fetch(url.toString(), {
@@ -87,7 +87,14 @@ export async function GET(request: NextRequest) {
           // 2. 提取hashtag
           const titleHashtags = extractHashtags(videoData.title)
           const descriptionHashtags = extractHashtags(videoData.description)
-          const allHashtags = [...new Set([...titleHashtags, ...descriptionHashtags])]
+          const allHashtags: string[] = []
+          const seenHashtags = new Set<string>()
+          for (const tag of [...titleHashtags, ...descriptionHashtags]) {
+            if (!seenHashtags.has(tag)) {
+              seenHashtags.add(tag)
+              allHashtags.push(tag)
+            }
+          }
 
           // 3. 插入hashtag并创建关联
           for (const hashtagName of allHashtags) {
@@ -149,7 +156,7 @@ export async function GET(request: NextRequest) {
           maxResults,
           pageToken,
           saveToDb,
-          key: YOUTUBE_API_KEY.substring(0, 10) + '...',
+          key: YOUTUBE_API_KEY!.substring(0, 10) + '...',
         },
       },
       response: {

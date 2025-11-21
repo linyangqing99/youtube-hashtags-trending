@@ -9,13 +9,14 @@ export function loadCategories(): Record<string, string> {
   if (categoriesMap) return categoriesMap;
 
   const categories = (categoriesData as YouTubeCategoryListResponse).items;
-  categoriesMap = {};
+  const map: Record<string, string> = {};
 
   categories.forEach((category: YouTubeCategory) => {
-    categoriesMap[category.id] = category.snippet.title;
+    map[category.id] = category.snippet.title;
   });
 
-  return categoriesMap;
+  categoriesMap = map;
+  return map;
 }
 
 // 获取类别名称

@@ -67,7 +67,7 @@ export class YouTubeApiClient {
   private baseUrl: string;
 
   constructor(apiKey?: string) {
-    this.apiKey = apiKey || YOUTUBE_API_CONFIG.apiKey;
+    this.apiKey = apiKey || YOUTUBE_API_CONFIG.apiKey || '';
     this.baseUrl = YOUTUBE_API_CONFIG.baseUrl;
   }
 

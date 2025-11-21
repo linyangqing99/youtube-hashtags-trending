@@ -58,14 +58,15 @@ export async function GET(request: NextRequest) {
 
       try {
         // 构建请求参数
-        const apiParams = new URLSearchParams({
-          part: 'snippet,statistics',
-          chart: 'mostPopular',
-          regionCode,
-          maxResults: maxResultsPerPage.toString(),
-          key: YOUTUBE_API_KEY,
-          ...(currentPageToken ? { pageToken: currentPageToken } : {}),
-        });
+        const apiParams = new URLSearchParams()
+        apiParams.set('part', 'snippet,statistics')
+        apiParams.set('chart', 'mostPopular')
+        apiParams.set('regionCode', regionCode)
+        apiParams.set('maxResults', maxResultsPerPage.toString())
+        apiParams.set('key', YOUTUBE_API_KEY!)
+        if (currentPageToken) {
+          apiParams.set('pageToken', currentPageToken)
+        }
 
         const requestUrl = `${YOUTUBE_API_BASE_URL}/videos?${apiParams.toString()}`;
         console.log(`请求第 ${pageNum} 页: ${requestUrl.substring(0, 100)}...`);

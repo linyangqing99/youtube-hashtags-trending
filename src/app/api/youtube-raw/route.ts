@@ -31,14 +31,15 @@ export async function GET(request: NextRequest) {
     const pageToken = searchParams.get('pageToken') || undefined;
 
     // 构建请求参数
-    const apiParams = new URLSearchParams({
-      part: 'snippet,statistics',
-      chart: 'mostPopular',
-      regionCode,
-      maxResults: maxResults.toString(),
-      key: YOUTUBE_API_KEY,
-      ...(pageToken ? { pageToken } : {}),
-    });
+    const apiParams = new URLSearchParams();
+    apiParams.set('part', 'snippet,statistics');
+    apiParams.set('chart', 'mostPopular');
+    apiParams.set('regionCode', regionCode);
+    apiParams.set('maxResults', maxResults.toString());
+    apiParams.set('key', YOUTUBE_API_KEY!);
+    if (pageToken) {
+      apiParams.set('pageToken', pageToken);
+    }
 
     // 记录请求信息
     const requestInfo = {
@@ -53,7 +54,7 @@ export async function GET(request: NextRequest) {
         regionCode,
         maxResults,
         pageToken,
-        key: YOUTUBE_API_KEY.substring(0, 10) + '...', // 部分隐藏
+        key: YOUTUBE_API_KEY!.substring(0, 10) + '...', // 部分隐藏
       }
     };
 
@@ -69,7 +70,7 @@ export async function GET(request: NextRequest) {
     const responseTime = endTime - startTime;
 
     // 获取响应头信息
-    const responseHeaders = {};
+    const responseHeaders: Record<string, string> = {};
     response.headers.forEach((value, key) => {
       if (key.toLowerCase().includes('youtube') ||
           key.toLowerCase().includes('content-type') ||

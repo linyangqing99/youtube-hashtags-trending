@@ -79,12 +79,14 @@ export async function createHashtag(name: string) {
   try {
     const normalizedName = name.toLowerCase().replace(/^#/, '').trim()
 
+    const hashtagData: Database['public']['Tables']['hashtags']['Insert'] = {
+      name: normalizedName,
+      created_at: new Date().toISOString()
+    }
+
     const { data, error } = await supabase
-      .from('hashtags' as any)
-      .upsert<any>({
-        name: normalizedName,
-        created_at: new Date().toISOString()
-      }, {
+      .from('hashtags')
+      .upsert(hashtagData, {
         onConflict: 'name',
         ignoreDuplicates: false
       })
@@ -127,15 +129,15 @@ export async function createHashtag(name: string) {
 // 批量创建视频hashtag关联
 export async function createVideoHashtagRelations(
   videoId: string,
-  hashtagRelations: { hashtagId: number; source: 'title' | 'description' | 'tags' | 'extracted'; position?: number; confidence?: number }[]
+  hashtagRelations: { hashtagId: string; source: 'title' | 'description' | 'tags' | 'extracted'; position?: number; confidence?: number }[]
 ) {
   try {
-    const relations = hashtagRelations.map(relation => ({
+    const relations: Database['public']['Tables']['video_hashtags']['Insert'][] = hashtagRelations.map(relation => ({
       video_id: videoId,
       hashtag_id: relation.hashtagId,
       source: relation.source,
-      position: relation.position || null,
-      confidence_score: relation.confidence || 1.0,
+      position: relation.position ?? null,
+      confidence_score: relation.confidence ?? 1.0,
       created_at: new Date().toISOString()
     }))
 
@@ -154,7 +156,7 @@ export async function createVideoHashtagRelations(
     return {
       success: true,
       data,
-      insertedCount: data.length
+      insertedCount: data?.length ?? 0
     }
   } catch (error) {
     console.error('创建视频hashtag关联失败:', error)

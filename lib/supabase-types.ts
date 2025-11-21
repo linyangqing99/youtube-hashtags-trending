@@ -44,6 +44,7 @@ export type Database = {
           last_video_date?: string | null;
           category_distribution?: Record<string, any> | null;
         };
+        Relationships: [];
       };
       videos: {
         Row: {
@@ -106,6 +107,7 @@ export type Database = {
           updated_at?: string;
           data_source?: string;
         };
+        Relationships: [];
       };
       hashtags: {
         Row: {
@@ -147,6 +149,7 @@ export type Database = {
           last_mention_date?: string | null; // TIMESTAMP WITH TIME ZONE
           updated_at?: string; // TIMESTAMP WITH TIME ZONE
         };
+        Relationships: [];
       };
       video_hashtags: {
         Row: {
@@ -176,6 +179,7 @@ export type Database = {
           confidence_score?: number;
           created_at?: string; // TIMESTAMP WITH TIME ZONE
         };
+        Relationships: [];
       };
       video_snapshots: {
         Row: {
@@ -208,6 +212,7 @@ export type Database = {
           ranking_position?: number | null;
           created_at?: string; // TIMESTAMP WITH TIME ZONE
         };
+        Relationships: [];
       };
       hashtag_trends: {
         Row: {
@@ -246,6 +251,7 @@ export type Database = {
           ranking_position?: number | null;
           created_at?: string; // TIMESTAMP WITH TIME ZONE
         };
+        Relationships: [];
       };
       api_queries: {
         Row: {
@@ -287,6 +293,7 @@ export type Database = {
           api_version?: string;
           created_at?: string; // TIMESTAMP WITH TIME ZONE
         };
+        Relationships: [];
       };
       user_subscriptions: {
         Row: {
@@ -331,13 +338,24 @@ export type Database = {
           created_at?: string; // TIMESTAMP WITH TIME ZONE
           updated_at?: string; // TIMESTAMP WITH TIME ZONE
         };
+        Relationships: [];
       };
     };
     Views: {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_table_columns: {
+        Args: {
+          table_name: string;
+        };
+        Returns: {
+          column_name: string;
+          data_type: string;
+          is_nullable: string;
+          column_default: string | null;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;

@@ -156,7 +156,7 @@ export class HashtagExtractor {
     const heatmapData = new Map<string, Map<string, number>>();
 
     // 初始化日期范围
-    const dates = [];
+    const dates: string[] = [];
     for (let i = days - 1; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);

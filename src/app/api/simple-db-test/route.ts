@@ -72,7 +72,14 @@ export async function GET(request: NextRequest) {
       const descriptionHashtags = extractHashtags(sampleVideo.description);
       const nativeTags = sampleVideo.tags.map(tag => tag.toLowerCase());
 
-      const allHashtags = [...new Set([...titleHashtags, ...descriptionHashtags, ...nativeTags])];
+      const allHashtags: string[] = [];
+      const seen = new Set<string>();
+      for (const tag of [...titleHashtags, ...descriptionHashtags, ...nativeTags]) {
+        if (!seen.has(tag)) {
+          seen.add(tag);
+          allHashtags.push(tag);
+        }
+      }
 
       results.testResults.extraction = {
         videoTitle: sampleVideo.title,
@@ -108,7 +115,14 @@ export async function GET(request: NextRequest) {
         // 提取并插入hashtag
         const titleHashtags = extractHashtags(sampleVideo.title);
         const descriptionHashtags = extractHashtags(sampleVideo.description);
-        const allHashtags = [...new Set([...titleHashtags, ...descriptionHashtags])];
+        const allHashtags: string[] = [];
+        const seenHashtags = new Set<string>();
+        for (const tag of [...titleHashtags, ...descriptionHashtags]) {
+          if (!seenHashtags.has(tag)) {
+            seenHashtags.add(tag);
+            allHashtags.push(tag);
+          }
+        }
 
         const hashtagInserts = [];
         for (const hashtagName of allHashtags) {

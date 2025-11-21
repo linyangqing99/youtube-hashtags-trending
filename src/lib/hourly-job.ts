@@ -97,19 +97,22 @@ export async function runHourlyJob() {
   }
 
   // 3) 记录 API 查询（可选，如果未建表则忽略错误）
-  await supabase
-    .from('api_queries')
-    .insert({
-      query_type: 'trending',
-      region_code: 'US',
-      page_number: 1,
-      total_results: (videos as Video[] | null)?.length || 0,
-      query_date: now.toISOString(),
-      response_time_ms: Math.floor(Math.random() * 1000) + 500,
-      success: true,
-      api_version: 'v3',
-    })
-    .catch(() => {})
+  try {
+    await supabase
+      .from('api_queries')
+      .insert({
+        query_type: 'trending',
+        region_code: 'US',
+        page_number: 1,
+        total_results: (videos as Video[] | null)?.length || 0,
+        query_date: now.toISOString(),
+        response_time_ms: Math.floor(Math.random() * 1000) + 500,
+        success: true,
+        api_version: 'v3',
+      })
+  } catch {
+    // 忽略记录失败
+  }
 
   return {
     videoSnapshots: (videos as Video[] | null)?.length || 0,

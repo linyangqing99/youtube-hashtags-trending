@@ -2,6 +2,7 @@
 // 用于验证表结构和基本功能
 
 import { supabase, supabaseAdmin } from './supabase'
+import { Database } from './supabase-types'
 
 export interface TableInfo {
   tableName: string
@@ -75,7 +76,7 @@ export async function testDatabaseSchema(): Promise<TestResult> {
   }
 
   // 测试每个表的存在性和基本结构
-  const tablesToTest = [
+  const tablesToTest: Array<keyof Database['public']['Tables']> = [
     'channels',
     'videos',
     'hashtags',
@@ -183,7 +184,8 @@ export async function testTimeSeriesFunctionality() {
     } else {
       results.videoSnapshots = {
         success: true,
-        message: 'video_snapshots 表功能正常'
+        message: 'video_snapshots 表功能正常',
+        error: null
       }
 
       // 清理测试数据
@@ -229,7 +231,8 @@ export async function testTimeSeriesFunctionality() {
     } else {
       results.hashtagTrends = {
         success: true,
-        message: 'hashtag_trends 表功能正常'
+        message: 'hashtag_trends 表功能正常',
+        error: null
       }
 
       // 清理测试数据

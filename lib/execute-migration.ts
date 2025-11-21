@@ -5,6 +5,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { supabaseAdmin } from './supabase'
 import { runFullDatabaseTest } from './test-database-connection'
+import { Database } from './supabase-types'
 
 export async function executeMigration() {
   console.log('🚀 开始执行数据库迁移...')
@@ -93,7 +94,7 @@ export async function verifyMigration() {
 export async function checkNewFields() {
   console.log('🔍 检查新增的字段...')
 
-  const checks = [
+  const checks: Array<{ table: keyof Database['public']['Tables']; newFields: string[] }> = [
     {
       table: 'video_snapshots',
       newFields: ['ranking_position']
