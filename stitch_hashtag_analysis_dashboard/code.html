@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hashtag Analytics Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f20d0d",
+            "background-light": "#f8f5f5",
+            "background-dark": "#181818",
+            "surface-dark": "#282828",
+            "heatmap-low": "#fee2e2",
+            "heatmap-medium": "#f87171",
+            "heatmap-hot": "#dc2626",
+            "heatmap-very-hot": "#991b1b",
+            "dark-heatmap-low": "rgba(254, 226, 226, 0.2)",
+            "dark-heatmap-medium": "rgba(248, 113, 113, 0.4)",
+            "dark-heatmap-hot": "rgba(220, 38, 38, 0.6)",
+            "dark-heatmap-very-hot": "rgba(153, 27, 27, 0.8)",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-surface-dark px-4 py-3">
+<div class="flex items-center gap-4 text-gray-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.96 13.01a2.1 2.1 0 1 0 0-4.2 2.1 2.1 0 0 0 0 4.2ZM12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12Zm-6.52-11.99a6.52 6.52 0 1 1 13.04 0 6.52 6.52 0 0 1-13.04 0Z"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Hashtag Analytics</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="hidden sm:flex items-center gap-8">
+<a class="text-sm font-medium leading-normal text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white" href="#">Dashboard</a>
+<a class="text-sm font-medium leading-normal text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white" href="#">Reports</a>
+<a class="text-sm font-medium leading-normal text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white" href="#">Settings</a>
+</div>
+<div class="flex gap-2 items-center">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-surface-dark text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-surface-dark text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-xl">help</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCrOvdGi__CSYaKJQjRRSv3ZqXgzYVfzCo-9-oi5uSVQIsz9PUbIyIoMhpSrqN5smEYt1RpuJztzZ7sKh_wDEGLjKy24F3MhElr_KuSUWjNECpucb9LBJAyycX-Fz-MTEOyCUCL0_pfEj1eRggcaSxPuj9UpDkySKXSwXhtggLf7TxfrI8_pxIMj6KOFhP3CFTcYf4gBnMvvFVkaOWXmEYzujTcmlXRCTU1vWby4u5FmEVB6bOIpO_Lw1gSwzSvg7nnXa3hO-S1I24");'></div>
+</div>
+</div>
+</header>
+<main class="flex flex-col gap-8 mt-8">
+<div class="flex flex-wrap justify-between items-center gap-4 px-4">
+<div class="flex flex-col gap-1">
+<p class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Dashboard</p>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">An overview of YouTube hashtag trends in the US.</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal mt-1">You’re viewing top hashtags from the most popular videos in the US over the last 7 days.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-surface-dark bg-white dark:bg-surface-dark p-4 sm:flex-row sm:items-center sm:justify-between">
+<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3 flex-wrap">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-100 dark:bg-gray-700/50 pl-4 pr-2 text-gray-500 dark:text-gray-400 cursor-not-allowed">
+<p class="text-sm font-medium leading-normal">Country: United States</p>
+<span class="material-symbols-outlined text-lg">lock</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-100 dark:bg-gray-700/50 pl-4 pr-2 text-gray-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600/50">
+<p class="text-sm font-medium leading-normal">Topic: All Topics</p>
+<span class="material-symbols-outlined text-lg">arrow_drop_down</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-100 dark:bg-gray-700/50 pl-4 pr-2 text-gray-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600/50">
+<p class="text-sm font-medium leading-normal">Time Frame: Last 7 Days</p>
+<span class="material-symbols-outlined text-lg">arrow_drop_down</span>
+</button>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Apply Filters</span>
+</button>
+</div>
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-700 p-6 flex flex-col gap-6 shadow-sm">
+<h2 class="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Top Trending Hashtags</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 flex flex-col gap-2 relative">
+<p class="text-sm text-gray-500 dark:text-gray-400">#1 Trending</p>
+<p class="text-2xl font-bold text-gray-900 dark:text-white">#gaming</p>
+<div class="flex items-center gap-2 mt-2">
+<p class="text-lg font-semibold text-gray-700 dark:text-gray-300">1.2M Mentions</p>
+<div class="flex items-center text-green-500">
+<span class="material-symbols-outlined text-lg">trending_up</span>
+<span class="text-sm font-medium">+15%</span>
+</div>
+</div>
+<button class="absolute bottom-4 right-4 flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-9 px-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-bold leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+<span class="truncate">See Top Videos</span>
+</button>
+</div>
+<div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 flex flex-col gap-2 relative">
+<p class="text-sm text-gray-500 dark:text-gray-400">#2 Trending</p>
+<p class="text-2xl font-bold text-gray-900 dark:text-white">#shorts</p>
+<div class="flex items-center gap-2 mt-2">
+<p class="text-lg font-semibold text-gray-700 dark:text-gray-300">980K Mentions</p>
+<div class="flex items-center text-green-500">
+<span class="material-symbols-outlined text-lg">trending_up</span>
+<span class="text-sm font-medium">+8%</span>
+</div>
+</div>
+<button class="absolute bottom-4 right-4 flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-9 px-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-bold leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+<span class="truncate">See Top Videos</span>
+</button>
+</div>
+<div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 flex flex-col gap-2 relative">
+<p class="text-sm text-gray-500 dark:text-gray-400">#3 Trending</p>
+<p class="text-2xl font-bold text-gray-900 dark:text-white">#tech</p>
+<div class="flex items-center gap-2 mt-2">
+<p class="text-lg font-semibold text-gray-700 dark:text-gray-300">750K Mentions</p>
+<div class="flex items-center text-red-500">
+<span class="material-symbols-outlined text-lg">trending_down</span>
+<span class="text-sm font-medium">-3%</span>
+</div>
+</div>
+<button class="absolute bottom-4 right-4 flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-9 px-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-bold leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+<span class="truncate">See Top Videos</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-700 p-6 flex flex-col gap-4 shadow-sm">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Hashtag Analysis Heatmap</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Showing activity for the last 7 days.</p>
+</div>
+<div class="relative">
+<select class="appearance-none h-10 pl-4 pr-10 bg-gray-100 dark:bg-gray-700/50 text-gray-800 dark:text-gray-300 rounded-lg text-sm font-medium leading-normal hover:bg-gray-200 dark:hover:bg-gray-600/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors">
+<option>Sort by: 7-Day Mentions</option>
+<option>Sort by: 7-Day Growth</option>
+<option>Sort by: Emerging Hashtags</option>
+</select>
+<span class="material-symbols-outlined text-lg absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 pointer-events-none">arrow_drop_down</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left table-fixed border-separate" style="border-spacing: 0;">
+<thead class="text-xs text-gray-500 dark:text-gray-400 uppercase">
+<tr>
+<th class="py-3 pr-6 font-medium w-48 border-b border-gray-200 dark:border-gray-700" scope="col">Hashtag</th>
+<th class="py-3 px-1 text-center font-medium w-16 border-b border-gray-200 dark:border-gray-700" scope="col">11/14</th>
+<th class="py-3 px-1 text-center font-medium w-16 border-b border-gray-200 dark:border-gray-700" scope="col">11/15</th>
+<th class="py-3 px-1 text-center font-medium w-16 border-b border-gray-200 dark:border-gray-700" scope="col">11/16</th>
+<th class="py-3 px-1 text-center font-medium w-16 border-b border-gray-200 dark:border-gray-700" scope="col">11/17</th>
+<th class="py-3 px-1 text-center font-medium w-16 border-b border-gray-200 dark:border-gray-700" scope="col">11/18</th>
+<th class="py-3 px-1 text-center font-medium w-16 border-b border-gray-200 dark:border-gray-700" scope="col">11/19</th>
+<th class="py-3 px-1 text-center font-medium w-16 border-b border-gray-200 dark:border-gray-700" scope="col">11/20</th>
+<th class="py-3 pl-6 font-medium w-48 border-b border-gray-200 dark:border-gray-700" scope="col">7-Day Summary</th>
+<th class="py-3 pl-6 font-medium w-24 border-b border-gray-200 dark:border-gray-700" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="py-2 pr-6 font-medium text-gray-900 dark:text-white border-b border-gray-100 dark:border-gray-800">#gaming</td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-low dark:bg-dark-heatmap-low"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#gaming — Nov 14<br/>Mentions: 190K<br/>Change: +12% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-medium dark:bg-dark-heatmap-medium"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#gaming — Nov 15<br/>Mentions: 195K<br/>Change: +14% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-hot dark:bg-dark-heatmap-hot"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#gaming — Nov 16<br/>Mentions: 200K<br/>Change: +15% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-medium dark:bg-dark-heatmap-medium"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#gaming — Nov 17<br/>Mentions: 198K<br/>Change: +16% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-very-hot dark:bg-dark-heatmap-very-hot"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#gaming — Nov 18<br/>Mentions: 210K<br/>Change: +18% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-very-hot dark:bg-dark-heatmap-very-hot"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#gaming — Nov 19<br/>Mentions: 220K<br/>Change: +20% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-hot dark:bg-dark-heatmap-hot"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#gaming — Nov 20<br/>Mentions: 205K<br/>Change: +17% vs last week</div></div></td>
+<td class="py-2 pl-6 border-b border-gray-100 dark:border-gray-800"><p class="text-sm font-semibold text-gray-900 dark:text-white">1.2M Mentions</p><p class="text-xs text-gray-500 dark:text-gray-400">7-Day Score: 92</p></td>
+<td class="py-2 pl-6 border-b border-gray-100 dark:border-gray-800"><a class="flex items-center justify-center h-9 w-9 rounded-lg bg-gray-100 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600/50 transition-colors" href="#" title="View Details"><span class="material-symbols-outlined text-lg">visibility</span></a></td>
+</tr>
+<tr class="">
+<td class="py-2 pr-6 font-medium text-gray-900 dark:text-white border-b border-gray-100 dark:border-gray-800">#shorts</td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-medium dark:bg-dark-heatmap-medium"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#shorts — Nov 14<br/>Mentions: 140K<br/>Change: +5% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-medium dark:bg-dark-heatmap-medium"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#shorts — Nov 15<br/>Mentions: 142K<br/>Change: +6% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-hot dark:bg-dark-heatmap-hot"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#shorts — Nov 16<br/>Mentions: 150K<br/>Change: +7% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-very-hot dark:bg-dark-heatmap-very-hot"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#shorts — Nov 17<br/>Mentions: 160K<br/>Change: +9% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-hot dark:bg-dark-heatmap-hot"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#shorts — Nov 18<br/>Mentions: 155K<br/>Change: +8% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-medium dark:bg-dark-heatmap-medium"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#shorts — Nov 19<br/>Mentions: 143K<br/>Change: +6% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-low dark:bg-dark-heatmap-low"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#shorts — Nov 20<br/>Mentions: 130K<br/>Change: +4% vs last week</div></div></td>
+<td class="py-2 pl-6 border-b border-gray-100 dark:border-gray-800"><p class="text-sm font-semibold text-gray-900 dark:text-white">980K Mentions</p><p class="text-xs text-gray-500 dark:text-gray-400">7-Day Score: 85</p></td>
+<td class="py-2 pl-6 border-b border-gray-100 dark:border-gray-800"><a class="flex items-center justify-center h-9 w-9 rounded-lg bg-gray-100 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600/50 transition-colors" href="#" title="View Details"><span class="material-symbols-outlined text-lg">visibility</span></a></td>
+</tr>
+<tr>
+<td class="py-2 pr-6 font-medium text-gray-900 dark:text-white border-b border-gray-100 dark:border-gray-800">#tech</td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-hot dark:bg-dark-heatmap-hot"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#tech — Nov 14<br/>Mentions: 120K<br/>Change: -1% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-medium dark:bg-dark-heatmap-medium"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#tech — Nov 15<br/>Mentions: 110K<br/>Change: -2% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-low dark:bg-dark-heatmap-low"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#tech — Nov 16<br/>Mentions: 100K<br/>Change: -5% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-low dark:bg-dark-heatmap-low"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#tech — Nov 17<br/>Mentions: 95K<br/>Change: -6% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-medium dark:bg-dark-heatmap-medium"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#tech — Nov 18<br/>Mentions: 105K<br/>Change: -4% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-hot dark:bg-dark-heatmap-hot"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#tech — Nov 19<br/>Mentions: 115K<br/>Change: -2% vs last week</div></div></td>
+<td class="p-1 border-b border-gray-100 dark:border-gray-800"><div class="relative group aspect-square rounded bg-heatmap-medium dark:bg-dark-heatmap-medium"><div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-max bg-gray-900 text-white text-xs rounded-md py-2 px-3 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-pre-line text-center">#tech — Nov 20<br/>Mentions: 105K<br/>Change: -3% vs last week</div></div></td>
+<td class="py-2 pl-6 border-b border-gray-100 dark:border-gray-800"><p class="text-sm font-semibold text-gray-900 dark:text-white">750K Mentions</p><p class="text-xs text-gray-500 dark:text-gray-400">7-Day Score: 78</p></td>
+<td class="py-2 pl-6 border-b border-gray-100 dark:border-gray-800"><a class="flex items-center justify-center h-9 w-9 rounded-lg bg-gray-100 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600/50 transition-colors" href="#" title="View Details"><span class="material-symbols-outlined text-lg">visibility</span></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 flex justify-end">
+<div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+<div class="flex items-center gap-1.5">
+<div class="h-3 w-3 rounded-sm bg-heatmap-low dark:bg-dark-heatmap-low"></div>
+<span>Low</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="h-3 w-3 rounded-sm bg-heatmap-medium dark:bg-dark-heatmap-medium"></div>
+<span>Medium</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="h-3 w-3 rounded-sm bg-heatmap-hot dark:bg-dark-heatmap-hot"></div>
+<span>Hot</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="h-3 w-3 rounded-sm bg-heatmap-very-hot dark:bg-dark-heatmap-very-hot"></div>
+<span>Very Hot</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-12 py-6 border-t border-gray-200 dark:border-surface-dark">
+<div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 px-4">
+<p>© 2024 Hashtag Analytics. All Rights Reserved.</p>
+<div class="flex gap-4">
+<a class="hover:text-gray-800 dark:hover:text-white" href="#">Terms of Service</a>
+<a class="hover:text-gray-800 dark:hover:text-white" href="#">Privacy Policy</a>
+<a class="hover:text-gray-800 dark:hover:text-white" href="#">Support</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>

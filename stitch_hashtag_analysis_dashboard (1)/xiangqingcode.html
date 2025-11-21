@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trendlytics - Trending Videos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#f20d0d",
+                    "background-light": "#f8f5f5",
+                    "background-dark": "#221010",
+                },
+                fontFamily: {
+                    "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+    }
+    .group:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex h-screen w-full">
+<aside class="flex w-64 flex-col border-r border-gray-200 dark:border-gray-800 bg-background-light dark:bg-background-dark p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Trendlytics logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHw6GmLBTb9RecSbrolwgvI_lPCGi9wYXTMiU2GN3zDX8UKoXH_DTsZh19Ouwyhm52kznx0HLso0qrJCQWlG1dZ-UAcLzdKyMUE3_lzxfovb0YDklSqfRVlcBvyAa73h4dM3O-qcCJmebutD7bWI17JQwBcr7o42LRi-Qnczd_4itblOpiwCD5DTU96niu3O1abWFQ0nxQh3cwcgCzZyNWLo-A8D1qkGdSjCNoRiIFQ2ZxDuH2s5c5H9yg9fWcD2-LhDOUjDtyGa4");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Trendlytics</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">for YouTube</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-primary" style="font-size: 24px;">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" style="font-size: 24px;">monitoring</span>
+<p class="text-sm font-medium leading-normal">Hashtag Analysis</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" style="font-size: 24px;">list_alt</span>
+<p class="text-sm font-medium leading-normal">My Lists</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" style="font-size: 24px;">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-y-auto">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-gray-200 dark:border-gray-800 px-10 py-3 sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<label class="flex flex-col min-w-40 !h-10 w-full max-w-md">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-gray-500 dark:text-gray-400 flex bg-gray-100 dark:bg-white/5 items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-1 focus:ring-primary border-none bg-gray-100 dark:bg-white/5 h-full placeholder:text-gray-500 dark:placeholder:text-gray-400 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search videos, channels..." value=""/>
+</div>
+</label>
+<div class="flex flex-1 justify-end items-center gap-4">
+<div class="flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10">
+<span class="material-symbols-outlined" style="font-size: 20px;">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10">
+<span class="material-symbols-outlined" style="font-size: 20px;">help_outline</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBwRt0Jzeh4916085SbPRPVhXLaTxg8vPTQ87xlz9d3jAZL_ch6jiQJ1AOM4ihQOuJ92mCBb0EwDk3kyuLZwQiThZmNgKleHoprMvYdtt5xZOOCADJAVir44ZpCJOpB14o88A1vA3171VxHK_-8NyP3ch-GXT26pi1fwDd9YuJOm-XEg5npck36AuaNG8T5eO3x9ZDRrNBdYqk5mIUYs3cGY6J1LJo0vx2ABy2Lv0kqbzwZuXYpm8_ZcPGHDr09ODmpOHFmBWC5M3Y");'></div>
+</div>
+</header>
+<div class="flex flex-col p-8 gap-6">
+<div class="flex flex-wrap justify-between items-start gap-4">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Trending on May 21, 2024 - US</p>
+<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Displaying top trending videos in the US based on views in the last 24 hours.</p>
+</div>
+<div class="relative">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-100 dark:bg-white/5 pl-3 pr-3 border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400" style="font-size: 20px;">sort</span>
+<p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal">Sort by: Views (7-Day)</p>
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400" style="font-size: 20px;">expand_more</span>
+</button>
+</div>
+</div>
+<div class="w-full @container">
+<div class="flex overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-background-light dark:bg-background-dark">
+<table class="min-w-full text-left">
+<thead class="bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-gray-800">
+<tr>
+<th class="px-4 py-3 text-left text-gray-600 dark:text-gray-400 w-16 text-sm font-medium leading-normal">Rank</th>
+<th class="px-4 py-3 text-left text-gray-600 dark:text-gray-400 w-[30%] text-sm font-medium leading-normal">Video</th>
+<th class="px-4 py-3 text-left text-gray-600 dark:text-gray-400 text-sm font-medium leading-normal">Views</th>
+<th class="px-4 py-3 text-left text-gray-600 dark:text-gray-400 text-sm font-medium leading-normal">Likes</th>
+<th class="px-4 py-3 text-left text-gray-600 dark:text-gray-400 text-sm font-medium leading-normal">Performance Score</th>
+<th class="px-4 py-3 text-left text-gray-600 dark:text-gray-400 w-[15%] text-sm font-medium leading-normal">Hashtags</th>
+<th class="px-4 py-3 text-left text-gray-600 dark:text-gray-400 text-sm font-medium leading-normal">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-t border-t-gray-200 dark:border-t-gray-800">
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-medium">1</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex items-center gap-3">
+<img class="aspect-video w-28 rounded-lg object-cover" data-alt="Thumbnail for a tech review video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx0dW3JqnvXvGsaeuucTqrOGWm7QQ8yVMq8DPCqlTo8wQbQrSKB8UTmwj6ENDKkNn803tUId5a1orlWSQVtDDfRdL9iJD4YXZsCENdWvcMb0CU8b8IvH2I1g6ifYOGF3devMa0vgyPjgThy7cur2hx7sasJ8fOazeoGIuh03q3QLFKw_5QF81lsS75MdemH_tshYI6s49fpIikgpWCuINGJsmctQ8-0kCuo8wsHm9S4m9m21KmLGHy7idLaMg-pXAifsckwg3TEHI"/>
+<div class="flex flex-col gap-1">
+<p class="font-medium text-gray-900 dark:text-white">The Future of AI is Here</p>
+<div class="flex items-center gap-2">
+<img class="w-5 h-5 rounded-full object-cover" data-alt="Channel avatar for Tech Explained" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvEE9uwGNDvOmSXTW-hY2N0rDTKdQCL6tOH9wSwJFh403j_ynXwXSuVit1qKzfrhbcTMZ8V6MlOtX_8cpdadb9D_1l6CLN9cUSRTPxgFQzsWcYbruP6DDS7QcA5VrIpB9mv8UNJG_kU9c4LwTJ_zLDEmw1EhrGqYCRA4cKvdkdQg5gO6GWA9okXS4XNaTrjY7Ym4uWfyUK3zKvi8x3tS1E7sEjGXal4QED0g7IVRRi_aIZnu3Hnmmg7e2xVRtp747kqYf8cyNiiJI"/>
+<p class="text-xs text-gray-500 dark:text-gray-400">Tech Explained • 20 hours ago</p>
+</div>
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-normal">
+<div class="group relative flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-gray-400">visibility</span>
+<span>1.2M</span>
+<div class="tooltip absolute bottom-full mb-2 w-max rounded-lg bg-gray-800 dark:bg-gray-700 px-3 py-1.5 text-xs text-white opacity-0 visibility-hidden transition-all duration-200 transform translate-y-2">
++150K in the last hour
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-normal">
+<div class="group relative flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-gray-400">thumb_up</span>
+<span>98K</span>
+<div class="tooltip absolute bottom-full mb-2 w-max rounded-lg bg-gray-800 dark:bg-gray-700 px-3 py-1.5 text-xs text-white opacity-0 visibility-hidden transition-all duration-200 transform translate-y-2">
+Like/View Ratio: 8.1%
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm font-medium">
+<div class="flex items-center gap-1 text-green-500">
+<span class="material-symbols-outlined text-lg">trending_up</span>
+<span>9.5</span>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex gap-2 flex-wrap">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-7 px-3 bg-primary/10 text-primary text-xs font-medium">#AI</button>
+<button class="flex cursor-pointer items-center justify-center rounded-full h-7 px-3 bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 text-xs font-medium">#FutureTech</button>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex gap-2">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-1.5 rounded-lg bg-primary/10 pl-3 pr-3 text-primary hover:bg-primary/20">
+<span class="material-symbols-outlined" style="font-size: 18px;">play_arrow</span>
+<p class="text-xs font-medium leading-normal">Watch</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center rounded-lg w-9 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10">
+<span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="border-t border-t-gray-200 dark:border-t-gray-800">
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-medium">2</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex items-center gap-3">
+<img class="aspect-video w-28 rounded-lg object-cover" data-alt="Thumbnail for a gaming video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0j1y9hKRVoYqlWnrnQv8-TUC-0USQn2UuH1jXB62JLJ3blVJ7Gt7NQNhKDR6JYSeMTlSfwv4YWDz2XyxqBJHlJJdHzl4ySfsBeViCb3egU1Xs04bq-BTyYUuQ1fwq-xadUyyR-ysEYmSipQJhGzwpKEraCBDIzO31klg5av3GhaxWddqbk9XW-8lAsQnkEpq9qHvYz-WCF5lyG1V9TnwwWJScGgahvHoq5FYxhI2fXOimF0dVQRODWLJ48E5Wghk1Ff0pwjPOrqQ"/>
+<div class="flex flex-col gap-1">
+<p class="font-medium text-gray-900 dark:text-white">Epic Pro Gamer Moments</p>
+<div class="flex items-center gap-2">
+<img class="w-5 h-5 rounded-full object-cover" data-alt="Channel avatar for GameSphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGRXev7u6WTWjJFgW9k6Uoq1lZRBBTZX0vxevmzXDIuLKQKnLksNbs5WFegyjcnkmsWH9S1hEFiVkPbBvC-N24G_24mnfveW7DgqUgiqwK7dwPS_L194TKgdkob9nma0RIQMe9Zd0mEjIZnpJMdknmlnHMxWLKotiu-9qKsL08PIKIsBV_UlGXSdrinarppXJlrUIIu4cM_XIK9omwPIkALFDGxPuCIwudRHuY_hZgC3ghd1kPEGbq1L2jnO8NLcvOl4P6C5J989M"/>
+<p class="text-xs text-gray-500 dark:text-gray-400">GameSphere • 1 day ago</p>
+</div>
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-normal">
+<div class="group relative flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-gray-400">visibility</span>
+<span>980K</span>
+<div class="tooltip absolute bottom-full mb-2 w-max rounded-lg bg-gray-800 dark:bg-gray-700 px-3 py-1.5 text-xs text-white opacity-0 visibility-hidden transition-all duration-200 transform translate-y-2">
++80K in the last hour
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-normal">
+<div class="group relative flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-gray-400">thumb_up</span>
+<span>76K</span>
+<div class="tooltip absolute bottom-full mb-2 w-max rounded-lg bg-gray-800 dark:bg-gray-700 px-3 py-1.5 text-xs text-white opacity-0 visibility-hidden transition-all duration-200 transform translate-y-2">
+Like/View Ratio: 7.7%
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm font-medium">
+<div class="flex items-center gap-1 text-green-500">
+<span class="material-symbols-outlined text-lg">trending_up</span>
+<span>9.1</span>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex gap-2 flex-wrap">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-7 px-3 bg-primary/10 text-primary text-xs font-medium">#Gaming</button>
+<button class="flex cursor-pointer items-center justify-center rounded-full h-7 px-3 bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 text-xs font-medium">#eSports</button>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex gap-2">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-1.5 rounded-lg bg-primary/10 pl-3 pr-3 text-primary hover:bg-primary/20">
+<span class="material-symbols-outlined" style="font-size: 18px;">play_arrow</span>
+<p class="text-xs font-medium leading-normal">Watch</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center rounded-lg w-9 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10">
+<span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="border-t border-t-gray-200 dark:border-t-gray-800">
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-medium">3</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex items-center gap-3">
+<img class="aspect-video w-28 rounded-lg object-cover" data-alt="Thumbnail for a cooking video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd20LYjv_S8I_hZ9QCxqIFGdysMGVxWkl0za1iu0LhZHT4-3YoqBbQRzlVbuIBTbNXqTedmd8pmr5JVVMM8o31IiZzPANntu-9ceKs49aTONfJNQfVTeT_8SLRw76U3y6g8w0eAT4NTOIpZKyPamRdS1uEStzTAhzJWvA1C-vkjDKufOYnPwjdw3ElE_v2GPyFCcmqN5nZSEed1WURFLsdnMZ9tr4icbN5CeZ0Qn733dJM8TsOzc-yifIO_tS2VAxGO_L4IlrJHMc"/>
+<div class="flex flex-col gap-1">
+<p class="font-medium text-gray-900 dark:text-white">10-Minute Chocolate Cake Recipe</p>
+<div class="flex items-center gap-2">
+<img class="w-5 h-5 rounded-full object-cover" data-alt="Channel avatar for Kitchen Creations" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA3YpijTNdQXcO_gTxdYzUKlHhT0Q-RAeChi7VubVEHU1590CyQVYH-mlFXcZ4omzrvjl1yFdHr528eWQZj51XdF5cGfwfhfg9p6FkGkSQJE9Zpgr00IOjSF0r4f02AbV_AXDDvp02xfqxaCEzytAnjpwKdJfLN0DUnG4F3hjTc0WP69CGiuLZG1R_CKb4eoV0Xbb5WAphWqokbxop7NhErHXpk80nZQmk3TGv8sZH7wgpMOxx6b51DTJj6pHGdpY0taWKZobR1gM"/>
+<p class="text-xs text-gray-500 dark:text-gray-400">Kitchen Creations • 22 hours ago</p>
+</div>
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-normal">
+<div class="group relative flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-gray-400">visibility</span>
+<span>850K</span>
+<div class="tooltip absolute bottom-full mb-2 w-max rounded-lg bg-gray-800 dark:bg-gray-700 px-3 py-1.5 text-xs text-white opacity-0 visibility-hidden transition-all duration-200 transform translate-y-2">
++65K in the last hour
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-normal">
+<div class="group relative flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-gray-400">thumb_up</span>
+<span>65K</span>
+<div class="tooltip absolute bottom-full mb-2 w-max rounded-lg bg-gray-800 dark:bg-gray-700 px-3 py-1.5 text-xs text-white opacity-0 visibility-hidden transition-all duration-200 transform translate-y-2">
+Like/View Ratio: 7.6%
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm font-medium">
+<div class="flex items-center gap-1 text-orange-500">
+<span class="material-symbols-outlined text-lg">trending_flat</span>
+<span>8.2</span>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex gap-2 flex-wrap">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-7 px-3 bg-primary/10 text-primary text-xs font-medium">#Baking</button>
+<button class="flex cursor-pointer items-center justify-center rounded-full h-7 px-3 bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 text-xs font-medium">#Food</button>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex gap-2">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-1.5 rounded-lg bg-primary/10 pl-3 pr-3 text-primary hover:bg-primary/20">
+<span class="material-symbols-outlined" style="font-size: 18px;">play_arrow</span>
+<p class="text-xs font-medium leading-normal">Watch</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center rounded-lg w-9 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10">
+<span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="border-t border-t-gray-200 dark:border-t-gray-800">
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-medium">4</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex items-center gap-3">
+<img class="aspect-video w-28 rounded-lg object-cover" data-alt="Thumbnail for a fitness video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0LOwVAo-eOSbChx3ZQa0DCHBBGTlyrIQLr0Jq9SqhzbAydsKbequDTU5HEaGvWhKGCE-KJHkIMkb7rmblV4LDTGjK2fHR5mIDuy0lBKZZX2DLWhnsvPOnK_vTZBZnDbntH0Bk5gE7UEbDEePeWduiqg0won6e5ZqbavRM4VFspqOmDmKXFXgijMBu-Ka1eKZvjU4eEGwQEtyhtFOaFgEXZ-6JXNVw5DOIs54TDPOp-odsTFVhyS87AGXMcoeTaES4vGH2L3alvU4"/>
+<div class="flex flex-col gap-1">
+<p class="font-medium text-gray-900 dark:text-white">Full Body Workout - No Equipment</p>
+<div class="flex items-center gap-2">
+<img class="w-5 h-5 rounded-full object-cover" data-alt="Channel avatar for FitLife" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy5g8EJvXWUiSLjylaFaEx_WO7VKVNlen56qWDpyAiufqMXp9w9_tFJp9vrQwnmWc1jqhJBSTK4GCuv9q67-esHx8TAyrKfPZDp0cgQm2JffD_7qYtlVjC6RyWRMxqRF0ZKDeRW1VOGL72lmePpchrU-vFOp-1wqPCrKYdctb6bvMAGi0WdewEPacDvInRpi285RSHPP9sui0TNRY_Z-erG4dULXSovW6DSOqherqqQfWRh12WcfWz_4oLrQfCXmYnhWMrXZErpQ0"/>
+<p class="text-xs text-gray-500 dark:text-gray-400">FitLife • 2 days ago</p>
+</div>
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-normal">
+<div class="group relative flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-gray-400">visibility</span>
+<span>720K</span>
+<div class="tooltip absolute bottom-full mb-2 w-max rounded-lg bg-gray-800 dark:bg-gray-700 px-3 py-1.5 text-xs text-white opacity-0 visibility-hidden transition-all duration-200 transform translate-y-2">
++50K in the last hour
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-normal">
+<div class="group relative flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-gray-400">thumb_up</span>
+<span>54K</span>
+<div class="tooltip absolute bottom-full mb-2 w-max rounded-lg bg-gray-800 dark:bg-gray-700 px-3 py-1.5 text-xs text-white opacity-0 visibility-hidden transition-all duration-200 transform translate-y-2">
+Like/View Ratio: 7.5%
+</div>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm font-medium">
+<div class="flex items-center gap-1 text-orange-500">
+<span class="material-symbols-outlined text-lg">trending_flat</span>
+<span>7.9</span>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex gap-2 flex-wrap">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-7 px-3 bg-primary/10 text-primary text-xs font-medium">#Fitness</button>
+<button class="flex cursor-pointer items-center justify-center rounded-full h-7 px-3 bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 text-xs font-medium">#Workout</button>
+</div>
+</td>
+<td class="h-20 px-4 py-2 text-sm">
+<div class="flex gap-2">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-1.5 rounded-lg bg-primary/10 pl-3 pr-3 text-primary hover:bg-primary/20">
+<span class="material-symbols-outlined" style="font-size: 18px;">play_arrow</span>
+<p class="text-xs font-medium leading-normal">Watch</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center rounded-lg w-9 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10">
+<span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
