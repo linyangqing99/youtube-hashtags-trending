@@ -80,8 +80,8 @@ export async function createHashtag(name: string) {
     const normalizedName = name.toLowerCase().replace(/^#/, '').trim()
 
     const { data, error } = await supabase
-      .from('hashtags')
-      .upsert({
+      .from('hashtags' as any)
+      .upsert<any>({
         name: normalizedName,
         created_at: new Date().toISOString()
       }, {
