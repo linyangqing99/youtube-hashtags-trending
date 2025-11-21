@@ -15,15 +15,17 @@ if (process.env.https_proxy || process.env.HTTPS_PROXY) {
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
-// 验证API密钥
-if (!YOUTUBE_API_KEY) {
-  throw new Error('YouTube API密钥未配置，请设置 YOUTUBE_API_KEY 环境变量');
-}
-
 export async function GET(request: NextRequest) {
   const startTime = Date.now();
 
   try {
+    if (!YOUTUBE_API_KEY) {
+      return NextResponse.json(
+        { success: false, error: 'YouTube API密钥未配置，请设置 YOUTUBE_API_KEY 环境变量' },
+        { status: 500 }
+      );
+    }
+
     // 获取查询参数
     const searchParams = request.nextUrl.searchParams;
     const regionCode = searchParams.get('regionCode') || 'US';
@@ -36,7 +38,7 @@ export async function GET(request: NextRequest) {
     apiParams.set('chart', 'mostPopular');
     apiParams.set('regionCode', regionCode);
     apiParams.set('maxResults', maxResults.toString());
-    apiParams.set('key', YOUTUBE_API_KEY!);
+    apiParams.set('key', YOUTUBE_API_KEY);
     if (pageToken) {
       apiParams.set('pageToken', pageToken);
     }
@@ -54,7 +56,7 @@ export async function GET(request: NextRequest) {
         regionCode,
         maxResults,
         pageToken,
-        key: YOUTUBE_API_KEY!.substring(0, 10) + '...', // 部分隐藏
+        key: YOUTUBE_API_KEY.substring(0, 10) + '...', // 部分隐藏
       }
     };
 

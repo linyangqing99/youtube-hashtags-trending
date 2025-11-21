@@ -8,10 +8,6 @@ import { createClient } from '@supabase/supabase-js'
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
 const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3'
 
-if (!YOUTUBE_API_KEY) {
-  throw new Error('YouTube API密钥未配置，请设置 YOUTUBE_API_KEY 环境变量')
-}
-
 // Supabase配置
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -27,6 +23,13 @@ export async function GET(request: NextRequest) {
   const startTime = Date.now()
 
   try {
+    if (!YOUTUBE_API_KEY) {
+      return NextResponse.json(
+        { success: false, error: 'YouTube API密钥未配置，请设置 YOUTUBE_API_KEY 环境变量' },
+        { status: 500 }
+      )
+    }
+
     const searchParams = request.nextUrl.searchParams
     const regionCode = searchParams.get('regionCode') || 'US'
     const maxResults = parseInt(searchParams.get('maxResults') || '5')
@@ -39,7 +42,7 @@ export async function GET(request: NextRequest) {
     url.searchParams.set('chart', 'mostPopular')
     url.searchParams.set('regionCode', regionCode)
     url.searchParams.set('maxResults', String(maxResults))
-    url.searchParams.set('key', YOUTUBE_API_KEY!)
+    url.searchParams.set('key', YOUTUBE_API_KEY)
     if (pageToken) url.searchParams.set('pageToken', pageToken)
 
     const fetchResponse = await fetch(url.toString(), {
@@ -156,7 +159,7 @@ export async function GET(request: NextRequest) {
           maxResults,
           pageToken,
           saveToDb,
-          key: YOUTUBE_API_KEY!.substring(0, 10) + '...',
+          key: YOUTUBE_API_KEY.substring(0, 10) + '...',
         },
       },
       response: {
